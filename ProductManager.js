@@ -1,4 +1,5 @@
-import { promises as fs } from "fs";
+import fs from "fs";
+
 
 class ProductManager {
   #path = "./products.js";
@@ -119,3 +120,6 @@ const product2 = {
 
   console.log(await pm.getProducts());
 })();
+
+
+export default ProductManager;
