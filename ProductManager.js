@@ -34,8 +34,8 @@ class ProductManager {
     return products.length === 0 ? 1 : products[products.length - 1].id + 1;
   }
 
-  async getProductsById(id) {
-    let data = await fs.readFile(this.#path, "utf-8");
+  async getProductById(id) {
+    let data = await fs.promises.readFile(this.#path, "utf-8");
     let products = JSON.parse(data);
     let product = products.find((item) => item.id === id);
     if (!product) return `[ERR] Not found id product`;
@@ -68,11 +68,11 @@ class ProductManager {
   }
 
   async deleteProduct(id) {
-    let data = await fs.readFile(this.#path, "utf-8");
+    let data = await fs.promises.readFile(this.#path, "utf-8");
     let products = JSON.parse(data);
     let newProducts = products.filter((item) => item.id !== id);
     if (products.length !== newProducts.length) {
-      await fs.writeFile(this.#path, JSON.stringify(newProducts, null, 2));
+      await fs.promises.writeFile(this.#path, JSON.stringify(newProducts, null, 2));
       return newProducts;
     } else {
       return `[ERR] Product does not exist`;
@@ -80,7 +80,7 @@ class ProductManager {
   }
 
   async updateProduct(id, updatedProduct) {
-    let data = await fs.readFile(this.#path, "utf-8");
+    let data = await fs.promises.readFile(this.#path, "utf-8");
     let products = JSON.parse(data);
     let newProducts = products.map((item) => {
       if (item.id === id) {
@@ -90,13 +90,13 @@ class ProductManager {
         };
       } else return item;
     });
-    await fs.writeFile(this.#path, JSON.stringify(newProducts, null, 2));
+    await fs.promises.writeFile(this.#path, JSON.stringify(newProducts, null, 2));
     return newProducts.find((item) => item.id === id);
   }
 }
 
 const pm = new ProductManager();
-
+/*
 const product1 = {
   title: `Oppenheimer`,
   description: `Biografia`,
@@ -120,6 +120,6 @@ const product2 = {
 
   console.log(await pm.getProducts());
 })();
-
+*/
 
 export default ProductManager;
