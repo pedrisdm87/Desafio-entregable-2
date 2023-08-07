@@ -20,12 +20,12 @@ class ProductManager {
         this.#_products = JSON.parse(data);
       }
     } catch (error) {
-      await fs.writeFile(this.#path, JSON.stringify([], null, 2));
+      await fs.promises.writeFile(this.#path, JSON.stringify([], null, '/t'));
     }
   }
 
   async getProducts() {
-    let data = await fs.readFile(this.#path, "utf-8");
+    let data = await fs.promises.readFile(this.#path, "utf-8");
     const products = JSON.parse(data);
     return products;
   }
@@ -53,7 +53,7 @@ class ProductManager {
     )
       return `[ERR] Required fields missing`;
 
-    let data = await fs.readFile(this.#path, "utf-8");
+    let data = await fs.promises.readFile(this.#path, "utf-8");
     let products = JSON.parse(data);
 
     const found = products.find((item) => item.code === product.code);
@@ -63,7 +63,7 @@ class ProductManager {
 
     const productToAdd = { id: this.#getNextID(products), ...product };
     products.push(productToAdd);
-    await fs.writeFile(this.#path, JSON.stringify(products, null, 2));
+    await fs.promises.writeFile(this.#path, JSON.stringify(products, null, 2));
     return productToAdd;
   }
 
